@@ -13,3 +13,5 @@ chat.innerHTML += "<p>" + message + "</p>";
 document.getElementById("message").value = "";
 
 }
+
+console.log("Script Working");
