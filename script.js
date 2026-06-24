@@ -52,10 +52,9 @@ onSnapshot(collection(db, "messages"), (snapshot) => {
 
     let data = doc.data();
 
-  chat.innerHTML += `
-  <p><b>${data.username}:</b> ${data.text}</p>
+ chat.innerHTML += `
+  <p><b>${data.username || "Anonymous"}:</b> ${data.text}</p>
 `;
-
   });
 
 });
