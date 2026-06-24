@@ -43,13 +43,20 @@ onSnapshot(collection(db, "messages"), (snapshot) => {
 
     const isMe = data.email === currentUserEmail;
 
-    div.classList.add("msg");
-    div.classList.add(isMe ? "me" : "other");
+    div.style.maxWidth = "70%";
+    div.style.margin = "5px";
+    div.style.padding = "10px";
+    div.style.borderRadius = "10px";
+
+    div.style.alignSelf = isMe ? "flex-end" : "flex-start";
+    div.style.background = isMe ? "#d9fdd3" : "#fff";
 
     div.innerHTML = `
       <b>${data.username}</b><br>
       ${data.text}
-      <div class="time">${new Date(data.time).toLocaleTimeString()}</div>
+      <div style="font-size:10px;color:gray">
+        ${new Date(data.time).toLocaleTimeString()}
+      </div>
     `;
 
     chat.appendChild(div);
