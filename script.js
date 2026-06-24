@@ -14,4 +14,4 @@ document.getElementById("message").value = "";
 
 }
 
-console.log("Script Working");
+window.sendMessage = sendMessage;
