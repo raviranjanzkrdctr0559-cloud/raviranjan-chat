@@ -31,10 +31,31 @@ if(username.trim() === ""){
   username = "Anonymous";
 }
 
-await addDoc(collection(db, "messages"), {
-  username: username,
-  text: message,
-  time: Date.now()
+onSnapshot(collection(db, "messages"), (snapshot) => {
+
+  chat.innerHTML = "";
+
+  snapshot.forEach((docSnap) => {
+
+    let data = docSnap.data();
+
+    const div = document.createElement("div");
+
+    const isMe = data.email === currentUserEmail;
+
+    div.classList.add("msg");
+    div.classList.add(isMe ? "me" : "other");
+
+    div.innerHTML = `
+      <b>${data.username}</b><br>
+      ${data.text}
+      <div class="time">${new Date(data.time).toLocaleTimeString()}</div>
+    `;
+
+    chat.appendChild(div);
+  });
+
+  chat.scrollTop = chat.scrollHeight;
 });
 
   document.getElementById("message").value = "";
