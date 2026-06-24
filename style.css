@@ -1,0 +1,23 @@
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    padding:20px;
+}
+
+.chat-box{
+    margin:20px;
+}
+
+input{
+    width:250px;
+    padding:10px;
+}
+
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+
+#chat{
+    margin-top:20px;
+}
