@@ -79,3 +79,25 @@ onSnapshot(collection(db, "messages"), (snapshot) => {
   });
 
 });
+
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { getDoc, doc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const auth = getAuth();
+
+let currentUserName = "";
+let currentUserEmail = "";
+
+// 🔥 LOAD PROFILE FROM FIRESTORE
+async function loadUserProfile(db) {
+    const user = auth.currentUser;
+
+    if (!user) return;
+
+    const snap = await getDoc(doc(db, "users", user.uid));
+
+    if (snap.exists()) {
+        currentUserName = snap.data().name;
+        currentUserEmail = snap.data().email;
+    }
+}
