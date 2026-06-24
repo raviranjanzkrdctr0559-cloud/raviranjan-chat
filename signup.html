@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up</title>
+</head>
+<body>
+
+<h1>Create Account</h1>
+
+<input type="email" id="email" placeholder="Enter Email">
+<br><br>
+
+<input type="password" id="password" placeholder="Enter Password">
+<br><br>
+
+<button id="signupBtn">Sign Up</button>
+
+<p id="result"></p>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBlSN0__lD7GH0cDvqQQq9nX2gn1TRRXlE",
+  authDomain: "raviranjanchat-10f42.firebaseapp.com",
+  projectId: "raviranjanchat-10f42",
+  storageBucket: "raviranjanchat-10f42.firebasestorage.app",
+  messagingSenderId: "845872620022",
+  appId: "1:845872620022:web:bc929300410e45af3fa7d7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+document.getElementById("signupBtn").addEventListener("click", async () => {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    document.getElementById("result").innerHTML =
+    "✅ Account Created Successfully";
+
+  } catch(error) {
+
+    document.getElementById("result").innerHTML =
+    "❌ " + error.message;
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
