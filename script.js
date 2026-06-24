@@ -25,10 +25,17 @@ async function sendMessage() {
 
   if(message.trim() === "") return;
 
-  await addDoc(collection(db, "messages"), {
-    text: message,
-    time: Date.now()
-  });
+ let username = document.getElementById("username").value;
+
+if(username.trim() === ""){
+  username = "Anonymous";
+}
+
+await addDoc(collection(db, "messages"), {
+  username: username,
+  text: message,
+  time: Date.now()
+});
 
   document.getElementById("message").value = "";
 }
