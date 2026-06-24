@@ -14,7 +14,11 @@
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
+import {
+  getFirestore,
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyBlSN0__lD7GH0cDvqQQq9nX2gn1TRRXlE",
   authDomain: "raviranjanchat-10f42.firebaseapp.com",
@@ -26,8 +30,24 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-document.getElementById("result").innerText =
-"✅ Firebase Connected Successfully";
+const db = getFirestore(app);
+
+try {
+
+  await addDoc(collection(db, "messages"), {
+    text: "Hello Firebase",
+    time: Date.now()
+  });
+
+  document.getElementById("result").innerText =
+  "✅ Message Saved Successfully";
+
+} catch(error) {
+
+  document.getElementById("result").innerText =
+  "❌ Error: " + error.message;
+
+}
 
 </script>
 
