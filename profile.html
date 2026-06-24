@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Setup</title>
+</head>
+<body>
+
+<h1>Complete Your Profile</h1>
+
+<input type="text" id="name" placeholder="Enter Your Name">
+<br><br>
+
+<button id="saveBtn">Save Profile</button>
+
+<p id="result"></p>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBlSN0__lD7GH0cDvqQQq9nX2gn1TRRXlE",
+  authDomain: "raviranjanchat-10f42.firebaseapp.com",
+  projectId: "raviranjanchat-10f42",
+  storageBucket: "raviranjanchat-10f42.firebasestorage.app",
+  messagingSenderId: "845872620022",
+  appId: "1:845872620022:web:bc929300410e45af3fa7d7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  if(user){
+    currentUser = user;
+  } else {
+    window.location.href = "login.html";
+  }
+});
+
+document.getElementById("saveBtn").onclick = async () => {
+
+  const name = document.getElementById("name").value;
+
+  if(!name) return;
+
+  await setDoc(doc(db, "users", currentUser.uid), {
+    name: name,
+    email: currentUser.email
+  });
+
+  document.getElementById("result").innerHTML =
+  "✅ Profile Saved Successfully";
+
+};
+
+</script>
+
+</body>
+</html>
