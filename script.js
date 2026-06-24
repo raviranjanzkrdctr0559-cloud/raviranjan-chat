@@ -1,17 +1,54 @@
-function sendMessage() {
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-let message = document.getElementById("message").value;
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-if(message.trim() === ""){
-    return;
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyBlSN0__lD7GH0cDvqQQq9nX2gn1TRRXlE",
+  authDomain: "raviranjanchat-10f42.firebaseapp.com",
+  projectId: "raviranjanchat-10f42",
+  storageBucket: "raviranjanchat-10f42.firebasestorage.app",
+  messagingSenderId: "845872620022",
+  appId: "1:845872620022:web:bc929300410e45af3fa7d7"
+};
 
-let chat = document.getElementById("chat");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-chat.innerHTML += "<p>" + message + "</p>";
+async function sendMessage() {
 
-document.getElementById("message").value = "";
+  let message = document.getElementById("message").value;
 
+  if(message.trim() === "") return;
+
+  await addDoc(collection(db, "messages"), {
+    text: message,
+    time: Date.now()
+  });
+
+  document.getElementById("message").value = "";
 }
 
 window.sendMessage = sendMessage;
+
+const chat = document.getElementById("chat");
+
+onSnapshot(collection(db, "messages"), (snapshot) => {
+
+  chat.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+
+    let data = doc.data();
+
+    chat.innerHTML += `
+      <p>${data.text}</p>
+    `;
+
+  });
+
+});
